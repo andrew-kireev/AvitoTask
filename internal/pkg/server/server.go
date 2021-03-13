@@ -1,7 +1,7 @@
 package server
 
 import (
-	"2021_1_Noskool_team/configs"
+	"AvitoTask/configs"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )
@@ -27,5 +27,5 @@ func Start(config *configs.Config, handler Handler) error {
 		return err
 	}
 
-	return http.ListenAndServe(serv.config.MusicServerAddr, serv.handler)
+	return http.ListenAndServe(serv.config.StatisticServerAddr, serv.handler)
 }

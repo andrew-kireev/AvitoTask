@@ -6,6 +6,7 @@ require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/lib/pq v1.10.0 // indirect
+	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 )

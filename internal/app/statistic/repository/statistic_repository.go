@@ -18,7 +18,7 @@ func NewStatisticRepository(con *sql.DB) statistic.Repository {
 	}
 }
 
-func (statRep *StatisticRepository) SaveStatistic(stat models.Statistic) error {
+func (statRep *StatisticRepository) SaveStatistic(stat *models.Statistic) error {
 	queryGetStat := `SELECT stat_date, views, clicks, cost FROM statistic WHERE stat_date = $1`
 
 	statistic := models.Statistic{}
@@ -50,11 +50,11 @@ func (statRep *StatisticRepository) SaveStatistic(stat models.Statistic) error {
 	stat.CPC = stat.Cost.Div(decimal.NewFromInt(int64(stat.Clicks)))
 	stat.CPM = stat.Cost.Div(decimal.NewFromInt(int64(stat.Views))).Mul(decimal.NewFromInt(1000))
 
-	err = statRep.con.QueryRow(
-		query, stat.Date, stat.Views, stat.Clicks, stat.Cost, stat.CPC, stat.CPM).Scan()
+	_, errInsert := statRep.con.Exec(
+		query, stat.Date, stat.Views, stat.Clicks, stat.Cost, stat.CPC, stat.CPM)
 
-	if err != nil {
-		return err
+	if errInsert != nil {
+		return errInsert
 	}
 	return nil
 }

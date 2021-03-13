@@ -15,7 +15,7 @@ func NewStatisticUsecase(statisticRep statistic.Repository) *StatisticUsecase {
 	}
 }
 
-func (statUsecase *StatisticUsecase) SaveStatistic(stat models.Statistic) error {
+func (statUsecase *StatisticUsecase) SaveStatistic(stat *models.Statistic) error {
 	err := statUsecase.statisticRep.SaveStatistic(stat)
 	if err != nil {
 		return err
@@ -36,7 +36,7 @@ func (statUsecase *StatisticUsecase) GetStatistic(from, to, sortingParam string)
 		sortingParam = "stat_date"
 	}
 
-	stats, err := statUsecase.statisticRep.GetStatistic()
+	stats, err := statUsecase.statisticRep.GetStatistic(from, to, sortingParam)
 	if err != nil {
 		return nil, err
 	}
