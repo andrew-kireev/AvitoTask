@@ -5,6 +5,7 @@ import (
 	"AvitoTask/internal/app/statistic/models"
 	"database/sql"
 	"github.com/shopspring/decimal"
+	"strings"
 )
 
 type StatisticRepository struct {
@@ -76,7 +77,7 @@ func (statRep *StatisticRepository) GetStatistic(from, to, sortingParam string) 
 		stat := models.Statistic{}
 		_ = rows.Scan(&stat.Date, &stat.Views, &stat.Clicks,
 			&stat.Cost, &stat.CPC, &stat.CPM)
-
+		stat.Date = strings.Split(stat.Date, "T")[0]
 		statistics = append(statistics, stat)
 	}
 
