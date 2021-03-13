@@ -7,6 +7,6 @@ type Statistic struct {
 	Views  int             `json:"views"`
 	Clicks int             `json:"clicks"`
 	Cost   decimal.Decimal `json:"cost"`
-	CPC    int             `json:"cpc"`
-	CPM    int             `json:"cpm"`
+	CPC    decimal.Decimal `json:"cpc"`
+	CPM    decimal.Decimal `json:"cpm"`
 }
