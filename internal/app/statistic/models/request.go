@@ -2,8 +2,8 @@ package models
 
 //easyjson:json
 type Request struct {
-	Date   string `json:"date"`
-	Views  string `json:"views"`
-	Clicks string `json:"clicks"`
-	Cost   string `json:"cost"`
+	Date   string `json:"date" validate:"required"`
+	Views  string `json:"views" validate:"required"`
+	Clicks string `json:"clicks" validate:"required"`
+	Cost   string `json:"cost" validate:"required"`
 }

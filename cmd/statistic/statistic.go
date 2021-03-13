@@ -17,6 +17,7 @@ const (
 )
 
 func main() {
+	//time.Sleep(6 * time.Second)
 	config := configs.NewConfig()
 	_, err := toml.DecodeFile(configsPath, config)
 	if err != nil {
