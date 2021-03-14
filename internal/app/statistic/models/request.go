@@ -43,4 +43,4 @@ func ValidateSortingParam(sortingParam string) error {
 		return nil
 	}
 	return errors.New("unexpected sorting param")
- }
+}

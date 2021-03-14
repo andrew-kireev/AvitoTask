@@ -39,10 +39,6 @@ func NewStatisticHandler(r *mux.Router, config *configs.Config, usecase statisti
 	handler.router.HandleFunc("/api/v1/statistic",
 		handler.GetStatisticHandler).Methods(http.MethodGet)
 
-	handler.router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("main of albums"))
-	})
-
 	handler.router.Use(middlewares.LoggingMiddleware)
 	handler.router.Use(middlewares.PanicMiddleware)
 	handler.router.Use(middlewares.ContentTypeJson)
