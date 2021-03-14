@@ -6,7 +6,6 @@ import (
 	"AvitoTask/internal/app/statistic"
 	"AvitoTask/internal/app/statistic/models"
 	"encoding/json"
-	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"github.com/shopspring/decimal"
 	"github.com/sirupsen/logrus"
@@ -19,7 +18,6 @@ type StatisticHandler struct {
 	router      *mux.Router
 	logger      *logrus.Logger
 	statUsecase statistic.Usecase
-	validator   *validator.Validate
 }
 
 func NewStatisticHandler(r *mux.Router, config *configs.Config, usecase statistic.Usecase) *StatisticHandler {
@@ -33,8 +31,6 @@ func NewStatisticHandler(r *mux.Router, config *configs.Config, usecase statisti
 	if err != nil {
 		logrus.Error(err)
 	}
-
-	handler.validator = validator.New()
 
 	handler.router.HandleFunc("/api/v1/statistic",
 		handler.SaveStatisticHandler).Methods(http.MethodPost)
@@ -67,7 +63,7 @@ func (handler *StatisticHandler) SaveStatisticHandler(w http.ResponseWriter, r *
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	err = handler.validator.Struct(req)
+	err = req.Validate()
 	if err != nil {
 		handler.logger.Error(err)
 		w.WriteHeader(http.StatusBadRequest)
@@ -103,6 +99,14 @@ func (handler *StatisticHandler) GetStatisticHandler(w http.ResponseWriter, r *h
 	from := r.URL.Query().Get("from")
 	to := r.URL.Query().Get("to")
 	sortingParam := r.URL.Query().Get("sort")
+	errParam := models.ValidateSortingParam(sortingParam)
+	err := models.ValidateDates(from, to)
+
+	if err != nil || errParam != nil {
+		handler.logger.Error(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	stats, err := handler.statUsecase.GetStatistic(from, to, sortingParam)
 	if err != nil {
 		handler.logger.Error(err)
